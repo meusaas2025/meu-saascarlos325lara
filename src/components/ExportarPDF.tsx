@@ -1,9 +1,13 @@
 import { useState } from "react";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
+import { Button } from "@/components/ui/button";
+import { useToast } from "@/components/ui/use-toast";
+import { Loader2 } from "lucide-react";
 
 export default function ExportarPDF() {
   const [isExporting, setIsExporting] = useState(false);
+  const { toast } = useToast();
 
   const exportarParaPDF = async () => {
     try {
@@ -13,10 +17,16 @@ export default function ExportarPDF() {
         throw new Error("Elemento do dashboard não encontrado");
       }
 
+      toast({
+        title: "Iniciando exportação",
+        description: "Gerando PDF do dashboard...",
+      });
+
       const canvas = await html2canvas(elemento, {
         scale: 2, // Better quality
         useCORS: true, // Handle cross-origin images
-        logging: false // Disable console logs
+        logging: false, // Disable console logs
+        backgroundColor: "#ffffff", // Ensure white background
       });
 
       const imgData = canvas.toDataURL("image/png");
@@ -47,29 +57,41 @@ export default function ExportarPDF() {
       );
 
       pdf.save("relatorio_dashboard.pdf");
+      
+      toast({
+        title: "PDF gerado com sucesso!",
+        description: "O download do seu relatório começará em instantes.",
+        variant: "success",
+      });
     } catch (error) {
       console.error("Erro ao exportar PDF:", error);
-      alert("Erro ao gerar o PDF. Por favor, tente novamente.");
+      toast({
+        title: "Erro ao gerar PDF",
+        description: "Ocorreu um erro ao gerar o relatório. Por favor, tente novamente.",
+        variant: "destructive",
+      });
     } finally {
       setIsExporting(false);
     }
   };
 
   return (
-    <button
+    <Button
       onClick={exportarParaPDF}
       disabled={isExporting}
-      className={`
-        px-4 py-2 rounded-lg font-medium
-        ${isExporting 
-          ? 'bg-gray-400 cursor-not-allowed' 
-          : 'bg-green-600 hover:bg-green-700'
-        }
-        text-white transition-colors duration-200
-        flex items-center gap-2
-      `}
+      variant="default"
+      className="bg-green-600 hover:bg-green-700"
     >
-      📄 {isExporting ? 'Gerando PDF...' : 'Exportar PDF da Dashboard'}
-    </button>
+      {isExporting ? (
+        <>
+          <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+          Gerando PDF...
+        </>
+      ) : (
+        <>
+          📄 Exportar PDF da Dashboard
+        </>
+      )}
+    </Button>
   );
 }
