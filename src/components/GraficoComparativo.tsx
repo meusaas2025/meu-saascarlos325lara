@@ -38,7 +38,7 @@ export default function GraficoComparativo() {
 
   if (loading) {
     return (
-      <div className="bg-zinc-900 text-white p-6 rounded-2xl min-h-[400px] flex items-center justify-center">
+      <div className="bg-white dark:bg-zinc-900 text-zinc-900 dark:text-white p-6 rounded-2xl min-h-[400px] flex items-center justify-center">
         <p>Carregando dados...</p>
       </div>
     );
@@ -46,7 +46,7 @@ export default function GraficoComparativo() {
 
   if (error) {
     return (
-      <div className="bg-zinc-900 text-white p-6 rounded-2xl min-h-[400px] flex items-center justify-center">
+      <div className="bg-white dark:bg-zinc-900 text-zinc-900 dark:text-white p-6 rounded-2xl min-h-[400px] flex items-center justify-center">
         <p className="text-red-400">{error}</p>
       </div>
     );
@@ -54,33 +54,33 @@ export default function GraficoComparativo() {
 
   if (dados.length === 0) {
     return (
-      <div className="bg-zinc-900 text-white p-6 rounded-2xl min-h-[400px] flex items-center justify-center">
+      <div className="bg-white dark:bg-zinc-900 text-zinc-900 dark:text-white p-6 rounded-2xl min-h-[400px] flex items-center justify-center">
         <p>Nenhum dado encontrado</p>
       </div>
     );
   }
 
   return (
-    <div className="bg-zinc-900 text-white p-6 rounded-2xl">
+    <div className="bg-white dark:bg-zinc-900 text-zinc-900 dark:text-white p-6 rounded-2xl">
       <h2 className="text-2xl font-bold mb-6">📊 Vendas Semanais</h2>
       <ResponsiveContainer width="100%" height={400}>
         <BarChart data={dados}>
           <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
           <XAxis 
             dataKey="semana" 
-            stroke="#9CA3AF"
+            stroke="currentColor"
           />
           <YAxis 
-            stroke="#9CA3AF"
+            stroke="currentColor"
             tickFormatter={(value) => `R$ ${value.toLocaleString('pt-BR')}`}
           />
           <Tooltip 
             formatter={(value: number) => [`R$ ${value.toLocaleString('pt-BR')}`, 'Total']}
             contentStyle={{
-              backgroundColor: '#18181B',
+              backgroundColor: 'var(--tooltip-bg)',
               border: 'none',
               borderRadius: '8px',
-              color: '#fff'
+              color: 'var(--tooltip-text)'
             }}
           />
           <Bar 

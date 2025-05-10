@@ -23,10 +23,10 @@ export default function ExportarPDF() {
       });
 
       const canvas = await html2canvas(elemento, {
-        scale: 2, // Better quality
-        useCORS: true, // Handle cross-origin images
-        logging: false, // Disable console logs
-        backgroundColor: "#ffffff", // Ensure white background
+        scale: 2,
+        useCORS: true,
+        logging: false,
+        backgroundColor: document.documentElement.classList.contains('dark') ? '#18181b' : '#ffffff',
       });
 
       const imgData = canvas.toDataURL("image/png");
@@ -41,7 +41,6 @@ export default function ExportarPDF() {
       const proporcao = larguraPagina / canvas.width;
       const alturaImagem = canvas.height * proporcao;
 
-      // If image height exceeds page height, adjust scale
       const escala = alturaImagem > alturaPagina ? alturaPagina / alturaImagem : 1;
       const alturaFinal = alturaImagem * escala;
 
@@ -80,7 +79,7 @@ export default function ExportarPDF() {
       onClick={exportarParaPDF}
       disabled={isExporting}
       variant="default"
-      className="bg-green-600 hover:bg-green-700"
+      className="fixed bottom-4 right-4 bg-green-600 hover:bg-green-700 text-white dark:bg-green-700 dark:hover:bg-green-800"
     >
       {isExporting ? (
         <>
