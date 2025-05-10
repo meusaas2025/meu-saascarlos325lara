@@ -1,15 +1,11 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import { Download } from "lucide-react";
-import { useEffect } from "react";
 import { useToast } from "@/components/ui/use-toast";
+import html2pdf from 'html2pdf.js';
 
 export default function BotaoExportarPDF() {
   const { toast } = useToast();
-
-  useEffect(() => {
-    import("html2pdf.js");
-  }, []);
 
   const exportarPDF = async () => {
     const area = document.getElementById("painel-dashboard");
@@ -40,7 +36,7 @@ export default function BotaoExportarPDF() {
         description: "Aguarde enquanto preparamos seu relatório...",
       });
 
-      await window.html2pdf().set(opt).from(area).save();
+      await html2pdf().set(opt).from(area).save();
 
       toast({
         title: "PDF gerado com sucesso!",

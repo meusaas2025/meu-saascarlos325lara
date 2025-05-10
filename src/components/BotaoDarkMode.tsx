@@ -33,9 +33,7 @@ export default function BotaoDarkMode() {
   return (
     <Button 
       onClick={alternarTema} 
-      variant="outline"
-      size="icon"
-      className="fixed top-4 right-4 z-50 bg-zinc-900 dark:bg-white text-white dark:text-zinc-900 hover:bg-zinc-800 dark:hover:bg-zinc-100"
+      className="fixed top-4 right-4 z-50 bg-zinc-900 dark:bg-white text-white dark:text-zinc-900 hover:bg-zinc-800 dark:hover:bg-zinc-100 h-10 w-10 p-2"
     >
       {temaEscuro ? <Sun size={20} /> : <Moon size={20} />}
     </Button>
