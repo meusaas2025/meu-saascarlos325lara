@@ -2,7 +2,7 @@ import { PieChart, Pie, Cell, Tooltip, Legend, ResponsiveContainer } from "recha
 import { useEffect, useState } from "react";
 import { buscarDadosPizza, type DadosVenda } from "@/services/pizzaService";
 
-const CORES = ["#6366f1", "#22d3ee", "#10b981", "#f59e0b", "#ef4444", "#8b5cf6"];
+const CORES = ["#00FFCC", "#FF6384", "#FFCE56", "#36A2EB", "#4BC0C0"];
 
 export default function GraficoPizza() {
   const [dados, setDados] = useState<DadosVenda[]>([]);
@@ -50,9 +50,9 @@ export default function GraficoPizza() {
   }
 
   return (
-    <div className="bg-white dark:bg-zinc-900 text-zinc-900 dark:text-white p-6 rounded-2xl shadow-lg">
-      <h2 className="text-xl font-bold mb-4">Distribuição por Categoria</h2>
-      <ResponsiveContainer width="100%" height={300}>
+    <div className="bg-white dark:bg-zinc-900 text-zinc-900 dark:text-white p-6 rounded-2xl">
+      <h2 className="text-2xl font-bold mb-6">Distribuição por Categoria</h2>
+      <ResponsiveContainer width="100%" height={400}>
         <PieChart>
           <Pie
             data={dados}
@@ -60,12 +60,12 @@ export default function GraficoPizza() {
             nameKey="categoria"
             cx="50%"
             cy="50%"
-            outerRadius={100}
+            outerRadius={150}
             fill="#8884d8"
             label={({ categoria, total }) => `${categoria}: R$ ${total.toLocaleString('pt-BR')}`}
           >
-            {dados.map((_, i) => (
-              <Cell key={`cell-${i}`} fill={CORES[i % CORES.length]} />
+            {dados.map((_, index) => (
+              <Cell key={`cell-${index}`} fill={CORES[index % CORES.length]} />
             ))}
           </Pie>
           <Tooltip 
