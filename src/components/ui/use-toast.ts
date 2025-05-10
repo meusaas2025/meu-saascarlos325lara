@@ -1,14 +1,15 @@
 import * as React from "react"
 
-// Remova esse import problemático:
-// import type { ToastActionElement, ToastProps } from "@/components/ui/toast"
-
-// Substitua pelos tipos manuais (temporários ou fixos):
 type ToastActionElement = React.ReactNode
 
 interface ToastProps {
+  id: string
   open?: boolean
+  title?: React.ReactNode
+  description?: React.ReactNode
+  action?: ToastActionElement
   onOpenChange?: (open: boolean) => void
+  variant?: "default" | "destructive" | "success"
 }
 
 const TOAST_LIMIT = 1
@@ -73,6 +74,7 @@ const addToRemoveQueue = (toastId: string) => {
       toastId: toastId,
     })
   }, TOAST_REMOVE_DELAY)
+
   toastTimeouts.set(toastId, timeout)
 }
 
@@ -195,5 +197,3 @@ function useToast() {
 
 export { useToast, toast }
 export type { ToastProps, ToastActionElement }
-
-
