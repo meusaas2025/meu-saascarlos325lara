@@ -4,7 +4,12 @@ import { buscarDadosSemanais, type DadosVenda } from "@/services/graficoService"
 
 const META_SEMANAL = 1000; // R$1.000 por semana
 
-export default function GraficoComparativo() {
+interface Props {
+  startDate?: string;
+  endDate?: string;
+}
+
+export default function GraficoComparativo({ startDate, endDate }: Props) {
   const [dados, setDados] = useState<DadosVenda[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -13,7 +18,7 @@ export default function GraficoComparativo() {
     async function carregarDados() {
       try {
         setLoading(true);
-        const resultado = await buscarDadosSemanais();
+        const resultado = await buscarDadosSemanais(startDate, endDate);
         setDados(resultado);
       } catch (err) {
         setError(err instanceof Error ? err.message : 'Erro ao carregar dados');
@@ -22,7 +27,7 @@ export default function GraficoComparativo() {
       }
     }
     carregarDados();
-  }, []);
+  }, [startDate, endDate]);
 
   if (loading) {
     return (

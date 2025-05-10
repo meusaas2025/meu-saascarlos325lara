@@ -6,26 +6,58 @@ export interface DadosVenda {
   semana?: string;
 }
 
-export async function buscarDadosPizza(): Promise<DadosVenda[]> {
-  const { data, error } = await supabase
-    .from('resumo_pizza')
-    .select('*');
+export async function buscarDadosPizza(startDate?: string, endDate?: string): Promise<DadosVenda[]> {
+  let query = supabase.from('vendas')
+    .select('categoria, valor');
+
+  if (startDate) {
+    query = query.gte('criado_em', startDate);
+  }
+  if (endDate) {
+    query = query.lte('criado_em', endDate);
+  }
+
+  const { data, error } = await query;
 
   if (error) throw error;
-  
-  return data?.map(item => ({
-    categoria: item.categoria,
-    total: Number(item.total.toFixed(2))
-  })) || [];
+
+  // Agrupa os dados por categoria
+  const groupedData = data?.reduce((acc: Record<string, number>, item) => {
+    acc[item.categoria] = (acc[item.categoria] || 0) + Number(item.valor);
+    return acc;
+  }, {});
+
+  return Object.entries(groupedData || {}).map(([categoria, total]) => ({
+    categoria,
+    total: Number(total.toFixed(2))
+  }));
 }
 
-export async function buscarDadosSemanais(): Promise<DadosVenda[]> {
-  const { data, error } = await supabase.rpc('resumo_semanal');
-  
+export async function buscarDadosSemanais(startDate?: string, endDate?: string): Promise<DadosVenda[]> {
+  let query = supabase.from('vendas')
+    .select('criado_em, valor');
+
+  if (startDate) {
+    query = query.gte('criado_em', startDate);
+  }
+  if (endDate) {
+    query = query.lte('criado_em', endDate);
+  }
+
+  const { data, error } = await query;
+
   if (error) throw error;
 
-  return data?.map(item => ({
-    semana: `Semana ${item.semana}`,
-    total: Number(item.total.toFixed(2))
-  })) || [];
+  // Agrupa os dados por semana
+  const groupedData = data?.reduce((acc: Record<string, number>, item) => {
+    const week = new Date(item.criado_em).toLocaleDateString('pt-BR', { week: 'numeric' });
+    const weekKey = `Semana ${week}`;
+    acc[weekKey] = (acc[weekKey] || 0) + Number(item.valor);
+    return acc;
+  }, {});
+
+  return Object.entries(groupedData || {}).map(([semana, total]) => ({
+    semana,
+    total: Number(total.toFixed(2))
+  }));
 }

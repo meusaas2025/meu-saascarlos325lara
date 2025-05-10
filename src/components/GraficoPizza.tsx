@@ -4,7 +4,12 @@ import { buscarDadosPizza, type DadosVenda } from "@/services/graficoService";
 
 const CORES = ["#00FFCC", "#FF6384", "#FFCE56", "#36A2EB", "#4BC0C0"];
 
-export default function GraficoPizza() {
+interface Props {
+  startDate?: string;
+  endDate?: string;
+}
+
+export default function GraficoPizza({ startDate, endDate }: Props) {
   const [dados, setDados] = useState<DadosVenda[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -13,7 +18,7 @@ export default function GraficoPizza() {
     const carregarDados = async () => {
       try {
         setLoading(true);
-        const resultado = await buscarDadosPizza();
+        const resultado = await buscarDadosPizza(startDate, endDate);
         setDados(resultado);
       } catch (err) {
         setError(err instanceof Error ? err.message : 'Erro ao carregar dados');
@@ -23,7 +28,7 @@ export default function GraficoPizza() {
     };
 
     carregarDados();
-  }, []);
+  }, [startDate, endDate]);
 
   if (loading) {
     return (
