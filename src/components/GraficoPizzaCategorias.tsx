@@ -6,7 +6,7 @@ const CORES = ["#00FFCC", "#FF6384", "#FFCE56", "#36A2EB", "#4BC0C0"];
 
 interface DadosVenda {
   categoria: string;
-  valor: number;
+  total: number;
 }
 
 export default function GraficoPizzaCategorias() {
@@ -19,20 +19,15 @@ export default function GraficoPizzaCategorias() {
       try {
         setLoading(true);
         const { data, error } = await supabase
-          .from("vendas")
-          .select("categoria, valor");
+          .from('resumo_pizza')
+          .select('*');
 
         if (error) throw error;
 
         if (data) {
-          const agrupado = data.reduce<Record<string, number>>((acc, item) => {
-            acc[item.categoria] = (acc[item.categoria] || 0) + item.valor;
-            return acc;
-          }, {});
-
-          const resultado = Object.entries(agrupado).map(([categoria, valor]) => ({
-            categoria,
-            valor: Number(valor.toFixed(2)),
+          const resultado = data.map(item => ({
+            categoria: item.categoria,
+            total: Number(item.total.toFixed(2))
           }));
 
           setDados(resultado);
@@ -78,13 +73,13 @@ export default function GraficoPizzaCategorias() {
         <PieChart>
           <Pie
             data={dados}
-            dataKey="valor"
+            dataKey="total"
             nameKey="categoria"
             cx="50%"
             cy="50%"
             outerRadius={150}
             fill="#8884d8"
-            label={({ categoria, valor }) => `${categoria}: R$ ${valor.toLocaleString('pt-BR')}`}
+            label={({ categoria, total }) => `${categoria}: R$ ${total.toLocaleString('pt-BR')}`}
           >
             {dados.map((_, index) => (
               <Cell key={`cell-${index}`} fill={CORES[index % CORES.length]} />
