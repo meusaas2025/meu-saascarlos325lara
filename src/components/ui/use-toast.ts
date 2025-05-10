@@ -1,9 +1,15 @@
 import * as React from "react"
 
-import type {
-  ToastActionElement,
-  ToastProps,
-} from "@/components/ui/toast"
+// Remova esse import problemático:
+// import type { ToastActionElement, ToastProps } from "@/components/ui/toast"
+
+// Substitua pelos tipos manuais (temporários ou fixos):
+type ToastActionElement = React.ReactNode
+
+interface ToastProps {
+  open?: boolean
+  onOpenChange?: (open: boolean) => void
+}
 
 const TOAST_LIMIT = 1
 const TOAST_REMOVE_DELAY = 3000
@@ -189,4 +195,5 @@ function useToast() {
 
 export { useToast, toast }
 export type { ToastProps, ToastActionElement }
+
 
