@@ -35,7 +35,7 @@ export default function BotaoExportarPDF() {
         description: "Aguarde enquanto preparamos seu relatório..."
       })
 
-      const html2pdfInstance = html2pdf.default()
+      const html2pdfInstance = html2pdf()
       await html2pdfInstance.set(opt).from(area).save()
 
       toast({
