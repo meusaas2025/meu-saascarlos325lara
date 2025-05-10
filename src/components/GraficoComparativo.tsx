@@ -1,6 +1,6 @@
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, ReferenceLine } from 'recharts';
 import { useEffect, useState } from "react";
-import { buscarDadosSemanais, type DadosVenda } from "@/services/graficoService";
+import { buscarDadosSemanais, type DadosVenda } from "../services/graficoService";
 
 const META_SEMANAL = 1000; // R$1.000 por semana
 

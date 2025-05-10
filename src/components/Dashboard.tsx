@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react'
-import { Card, CardContent } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
+import { Card, CardContent } from "./ui/card"
+import { Button } from "./ui/button"
 import { PieChart, Pie, Tooltip, ResponsiveContainer, Cell } from "recharts"
 import { format } from "date-fns"
 import jsPDF from "jspdf"
 import autoTable from "jspdf-autotable"
-import { supabase } from '@/lib/supabaseClient'
-import { useToast } from "@/components/ui/use-toast"
+import { supabase } from '../lib/supabaseClient'
+import { useToast } from "./ui/use-toast"
 
 const cores = ["#00FFFF", "#FF00FF", "#FFFF00", "#00FF00", "#FF4500"]
 
