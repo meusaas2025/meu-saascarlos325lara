@@ -57,6 +57,7 @@ export async function buscarDadosSemanais(startDate?: string, endDate?: string):
   }, {});
 
   return Object.entries(groupedData || {}).map(([semana, total]) => ({
+    categoria: '',
     semana,
     total: Number(total.toFixed(2))
   }));
