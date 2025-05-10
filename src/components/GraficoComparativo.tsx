@@ -65,7 +65,7 @@ export default function GraficoComparativo() {
       <h2 className="text-2xl font-bold mb-6">📊 Vendas Semanais</h2>
       <ResponsiveContainer width="100%" height={400}>
         <BarChart data={dados}>
-          <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
+          <CartesianGrid strokeDasharray="3 3" stroke="var(--chart-grid)" />
           <XAxis 
             dataKey="semana" 
             stroke="currentColor"
@@ -85,7 +85,7 @@ export default function GraficoComparativo() {
           />
           <Bar 
             dataKey="total" 
-            fill="#4ade80"
+            fill="var(--chart-bar)"
             radius={[4, 4, 0, 0]}
           />
         </BarChart>

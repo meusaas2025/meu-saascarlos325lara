@@ -18,10 +18,15 @@ export default function App() {
         :root {
           --tooltip-bg: #ffffff;
           --tooltip-text: #000000;
+          --chart-grid: #e5e7eb;
+          --chart-bar: #4ade80;
+          --chart-colors: #00FFCC, #FF6384, #FFCE56, #36A2EB, #4BC0C0;
         }
         .dark {
           --tooltip-bg: #18181b;
           --tooltip-text: #ffffff;
+          --chart-grid: #374151;
+          --chart-bar: #22c55e;
         }
       `}</style>
     </>
