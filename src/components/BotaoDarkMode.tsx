@@ -1,34 +1,32 @@
-"use client";
-import { useEffect, useState } from "react";
-import { Button } from "@/components/ui/button";
-import { Moon, Sun } from "lucide-react";
-import { useToast } from "@/components/ui/use-toast";
+import { useState, useEffect } from "react"
+import { Button } from "./ui/button"
+import { Moon, Sun } from "lucide-react"
+import { useToast } from "./ui/use-toast"
 
 export default function BotaoDarkMode() {
-  const [temaEscuro, setTemaEscuro] = useState(false);
-  const { toast } = useToast();
+  const [temaEscuro, setTemaEscuro] = useState(false)
+  const { toast } = useToast()
 
   useEffect(() => {
-    const savedTheme = localStorage.getItem("theme");
-    const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-    const initialTheme = savedTheme === "dark" || (!savedTheme && prefersDark);
+    const savedTheme = localStorage.getItem("theme")
+    const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches
+    const initialTheme = savedTheme === "dark" || (!savedTheme && prefersDark)
     
-    setTemaEscuro(initialTheme);
-    document.documentElement.classList.toggle("dark", initialTheme);
-  }, []);
+    setTemaEscuro(initialTheme)
+    document.documentElement.classList.toggle("dark", initialTheme)
+  }, [])
 
   const alternarTema = () => {
-    const novoTema = !temaEscuro;
-    setTemaEscuro(novoTema);
-    document.documentElement.classList.toggle("dark", novoTema);
-    localStorage.setItem("theme", novoTema ? "dark" : "light");
+    const novoTema = !temaEscuro
+    setTemaEscuro(novoTema)
+    document.documentElement.classList.toggle("dark", novoTema)
+    localStorage.setItem("theme", novoTema ? "dark" : "light")
 
     toast({
       title: novoTema ? "Modo escuro ativado" : "Modo claro ativado",
-      description: novoTema ? "O tema escuro foi aplicado" : "O tema claro foi aplicado",
-      variant: "default",
-    });
-  };
+      description: novoTema ? "O tema escuro foi aplicado" : "O tema claro foi aplicado"
+    })
+  }
 
   return (
     <Button 
@@ -37,5 +35,5 @@ export default function BotaoDarkMode() {
     >
       {temaEscuro ? <Sun size={20} /> : <Moon size={20} />}
     </Button>
-  );
+  )
 }
