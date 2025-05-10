@@ -9,6 +9,8 @@ import { supabase } from "./lib/supabaseClient"
 export default function App() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  const [startDate, setStartDate] = useState("")
+  const [endDate, setEndDate] = useState("")
 
   useEffect(() => {
     checkUser()
@@ -21,7 +23,6 @@ export default function App() {
       if (error) throw error
       
       if (!session) {
-        // Redirect to login or show login form
         setError("Por favor, faça login para continuar")
       }
     } catch (err) {
@@ -51,16 +52,40 @@ export default function App() {
 
   return (
     <>
-      <div id="painel-dashboard" className="p-4 bg-gray-100 dark:bg-zinc-800 min-h-screen">
+      <main className="max-w-6xl mx-auto p-6 bg-gray-100 dark:bg-zinc-800 min-h-screen">
+        <header className="mb-10">
+          <h1 className="text-4xl font-bold text-zinc-900 dark:text-white">DataFlux - Dashboard</h1>
+          <p className="text-sm text-gray-500 dark:text-gray-400">Seu painel de controle futurista</p>
+        </header>
+
+        <section className="mb-8">
+          <label className="block mb-2 text-zinc-900 dark:text-white">Filtrar por data:</label>
+          <div className="flex gap-2">
+            <input
+              type="date"
+              value={startDate}
+              onChange={(e) => setStartDate(e.target.value)}
+              className="rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+            />
+            <input
+              type="date"
+              value={endDate}
+              onChange={(e) => setEndDate(e.target.value)}
+              className="rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+            />
+          </div>
+        </section>
+
         <div className="space-y-6">
-          <h1 className="text-3xl font-bold text-zinc-900 dark:text-white">Dashboard</h1>
-          <GraficoComparativo />
-          <GraficoPizza />
+          <GraficoComparativo startDate={startDate} endDate={endDate} />
+          <GraficoPizza startDate={startDate} endDate={endDate} />
         </div>
-      </div>
+      </main>
+      
       <BotaoExportarPDF />
       <BotaoDarkMode />
       <Toaster />
+      
       <style>{`
         :root {
           --tooltip-bg: #ffffff;
