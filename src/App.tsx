@@ -1,10 +1,54 @@
+import { useEffect, useState } from "react"
 import GraficoComparativo from "./components/GraficoComparativo"
 import GraficoPizza from "./components/GraficoPizza"
 import { Toaster } from "./components/Toaster"
 import BotaoDarkMode from "./components/BotaoDarkMode"
 import BotaoExportarPDF from "./components/BotaoExportarPDF"
+import { supabase } from "./lib/supabaseClient"
 
 export default function App() {
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
+
+  useEffect(() => {
+    checkUser()
+  }, [])
+
+  async function checkUser() {
+    try {
+      const { data: { session }, error } = await supabase.auth.getSession()
+      
+      if (error) throw error
+      
+      if (!session) {
+        // Redirect to login or show login form
+        setError("Por favor, faça login para continuar")
+      }
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Erro ao verificar usuário")
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gray-100 dark:bg-zinc-800 flex items-center justify-center">
+        <p className="text-zinc-900 dark:text-white">Carregando...</p>
+      </div>
+    )
+  }
+
+  if (error) {
+    return (
+      <div className="min-h-screen bg-gray-100 dark:bg-zinc-800 flex items-center justify-center">
+        <div className="bg-white dark:bg-zinc-900 p-8 rounded-lg shadow-lg">
+          <p className="text-red-500">{error}</p>
+        </div>
+      </div>
+    )
+  }
+
   return (
     <>
       <div id="painel-dashboard" className="p-4 bg-gray-100 dark:bg-zinc-800 min-h-screen">
@@ -33,5 +77,5 @@ export default function App() {
         }
       `}</style>
     </>
-  );
+  )
 }
