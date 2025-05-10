@@ -36,7 +36,7 @@ export default function BotaoExportarPDF() {
         description: "Aguarde enquanto preparamos seu relatório...",
       });
 
-      await html2pdf().set(opt).from(area).save();
+     await (window as any).html2pdf().set(opt).from(area).save();
 
       toast({
         title: "PDF gerado com sucesso!",
