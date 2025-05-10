@@ -48,15 +48,30 @@ export default function GraficoComparativo() {
     );
   }
 
+  const ultimaSemana = dados[dados.length - 1];
+  const totalAtual = ultimaSemana?.total || 0;
+
   return (
     <div className="bg-white dark:bg-zinc-900 text-zinc-900 dark:text-white p-6 rounded-2xl">
       <h2 className="text-2xl font-bold mb-6">📊 Vendas Semanais</h2>
+      
+      {totalAtual >= META_SEMANAL ? (
+        <div className="mb-4 p-4 bg-green-600 text-white rounded-xl shadow-md animate-pulse">
+          🎉 Parabéns! Meta semanal de R$ {META_SEMANAL.toLocaleString('pt-BR')} atingida!
+        </div>
+      ) : (
+        <div className="mb-4 p-4 bg-yellow-500 text-white rounded-xl">
+          💡 Faltam R$ {(META_SEMANAL - totalAtual).toLocaleString('pt-BR')} para atingir a meta semanal.
+        </div>
+      )}
+
       <div className="mb-4 text-sm">
         <span className="inline-flex items-center">
           <span className="w-4 h-0.5 bg-red-500 mr-2"></span>
           Meta semanal: R$ {META_SEMANAL.toLocaleString('pt-BR')}
         </span>
       </div>
+      
       <ResponsiveContainer width="100%" height={400}>
         <BarChart data={dados}>
           <CartesianGrid strokeDasharray="3 3" stroke="var(--chart-grid)" />
