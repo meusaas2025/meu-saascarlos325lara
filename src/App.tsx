@@ -3,6 +3,7 @@ import GraficoPizza from "./components/GraficoPizza"
 import ExportarPDF from "./components/ExportarPDF"
 import { Toaster } from "./components/Toaster"
 import BotaoDarkMode from "./components/BotaoDarkMode"
+import BotaoExportarPDF from "./components/BotaoExportarPDF"
 
 export default function App() {
   return (
@@ -11,7 +12,7 @@ export default function App() {
         <GraficoComparativo />
         <GraficoPizza />
       </div>
-      <ExportarPDF />
+      <BotaoExportarPDF />
       <BotaoDarkMode />
       <Toaster />
       <style>{`
