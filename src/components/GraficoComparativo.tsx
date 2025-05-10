@@ -1,6 +1,8 @@
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, ReferenceLine } from 'recharts';
 import { useEffect, useState } from "react";
 import { buscarDadosSemanais, type DadosVenda } from "@/services/graficoService";
+
+const META_SEMANAL = 1000; // R$1.000 por semana
 
 export default function GraficoComparativo() {
   const [dados, setDados] = useState<DadosVenda[]>([]);
@@ -49,6 +51,12 @@ export default function GraficoComparativo() {
   return (
     <div className="bg-white dark:bg-zinc-900 text-zinc-900 dark:text-white p-6 rounded-2xl">
       <h2 className="text-2xl font-bold mb-6">📊 Vendas Semanais</h2>
+      <div className="mb-4 text-sm">
+        <span className="inline-flex items-center">
+          <span className="w-4 h-0.5 bg-red-500 mr-2"></span>
+          Meta semanal: R$ {META_SEMANAL.toLocaleString('pt-BR')}
+        </span>
+      </div>
       <ResponsiveContainer width="100%" height={400}>
         <BarChart data={dados}>
           <CartesianGrid strokeDasharray="3 3" stroke="var(--chart-grid)" />
@@ -67,6 +75,16 @@ export default function GraficoComparativo() {
               border: 'none',
               borderRadius: '8px',
               color: 'var(--tooltip-text)'
+            }}
+          />
+          <ReferenceLine 
+            y={META_SEMANAL} 
+            stroke="#ef4444" 
+            strokeDasharray="3 3"
+            label={{
+              value: `Meta: R$ ${META_SEMANAL}`,
+              fill: '#ef4444',
+              position: 'right'
             }}
           />
           <Bar 
