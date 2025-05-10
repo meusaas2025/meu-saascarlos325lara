@@ -1,11 +1,9 @@
+import html2pdf from "html2pdf.js"
 import { Button } from "./ui/button"
 import { Download } from "lucide-react"
 import { useToast } from "./ui/use-toast"
-import html2pdf from 'html2pdf.js'
-
 export default function BotaoExportarPDF() {
   const { toast } = useToast()
-
   const exportarPDF = async () => {
     const area = document.getElementById("painel-dashboard")
     if (!area) {
@@ -35,7 +33,7 @@ export default function BotaoExportarPDF() {
         description: "Aguarde enquanto preparamos seu relatório..."
       })
 
-      const html2pdfInstance = html2pdf.default()
+      const html2pdfInstance = html2pdf()
       await html2pdfInstance.set(opt).from(area).save()
 
       toast({
