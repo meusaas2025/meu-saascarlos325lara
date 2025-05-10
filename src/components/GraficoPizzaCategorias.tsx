@@ -1,13 +1,8 @@
 import { PieChart, Pie, Cell, Tooltip, Legend, ResponsiveContainer } from "recharts";
 import { useEffect, useState } from "react";
-import { supabase } from "../lib/supabaseClient";
+import { buscarDadosPizza, type DadosVenda } from "@/services/pizzaService";
 
 const CORES = ["#00FFCC", "#FF6384", "#FFCE56", "#36A2EB", "#4BC0C0"];
-
-interface DadosVenda {
-  categoria: string;
-  total: number;
-}
 
 export default function GraficoPizzaCategorias() {
   const [dados, setDados] = useState<DadosVenda[]>([]);
@@ -15,23 +10,11 @@ export default function GraficoPizzaCategorias() {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const buscarDados = async () => {
+    const carregarDados = async () => {
       try {
         setLoading(true);
-        const { data, error } = await supabase
-          .from('resumo_pizza')
-          .select('*');
-
-        if (error) throw error;
-
-        if (data) {
-          const resultado = data.map(item => ({
-            categoria: item.categoria,
-            total: Number(item.total.toFixed(2))
-          }));
-
-          setDados(resultado);
-        }
+        const resultado = await buscarDadosPizza();
+        setDados(resultado);
       } catch (err) {
         setError(err instanceof Error ? err.message : 'Erro ao carregar dados');
       } finally {
@@ -39,7 +22,7 @@ export default function GraficoPizzaCategorias() {
       }
     };
 
-    buscarDados();
+    carregarDados();
   }, []);
 
   if (loading) {
