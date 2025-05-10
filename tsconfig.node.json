@@ -8,3 +8,11 @@
   },
   "include": ["vite.config.ts"]
 }
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"]
+    }
+  }
+}
