@@ -5,6 +5,7 @@ import { useToast } from "./ui/use-toast"
 
 export default function BotaoExportarPDF() {
   const { toast } = useToast()
+
   const exportarPDF = async () => {
     const area = document.getElementById("painel-dashboard")
     if (!area) {
@@ -20,10 +21,10 @@ export default function BotaoExportarPDF() {
       margin: 0.5,
       filename: "dashboard.pdf",
       image: { type: "jpeg", quality: 0.98 },
-      html2canvas: { 
+      html2canvas: {
         scale: 2,
         useCORS: true,
-        backgroundColor: document.documentElement.classList.contains('dark') ? '#18181b' : '#ffffff'
+        backgroundColor: document.documentElement.classList.contains("dark") ? "#18181b" : "#ffffff"
       },
       jsPDF: { unit: "in", format: "a4", orientation: "portrait" }
     }
@@ -52,8 +53,8 @@ export default function BotaoExportarPDF() {
   }
 
   return (
-    <Button 
-      onClick={exportarPDF} 
+    <Button
+      onClick={exportarPDF}
       className="fixed bottom-4 right-4 bg-purple-600 hover:bg-purple-700 text-white dark:bg-purple-700 dark:hover:bg-purple-800"
     >
       <Download className="mr-2 h-4 w-4" /> Exportar PDF
