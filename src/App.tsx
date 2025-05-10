@@ -9,6 +9,7 @@ export default function App() {
     <>
       <div id="painel-dashboard" className="p-4 bg-gray-100 dark:bg-zinc-800 min-h-screen">
         <div className="space-y-6">
+          <h1 className="text-3xl font-bold text-zinc-900 dark:text-white">Dashboard</h1>
           <GraficoComparativo />
           <GraficoPizza />
         </div>
