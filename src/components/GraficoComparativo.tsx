@@ -1,11 +1,6 @@
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import { useEffect, useState } from "react";
-import { supabase } from "../lib/supabaseClient";
-
-interface DadosVenda {
-  semana: string;
-  total: number;
-}
+import { buscarDadosSemanais, type DadosVenda } from "@/services/graficoService";
 
 export default function GraficoComparativo() {
   const [dados, setDados] = useState<DadosVenda[]>([]);
@@ -16,17 +11,8 @@ export default function GraficoComparativo() {
     async function carregarDados() {
       try {
         setLoading(true);
-        const { data, error } = await supabase.rpc('resumo_semanal');
-        
-        if (error) throw error;
-
-        if (data) {
-          const formatado = data.map(item => ({
-            semana: `Semana ${item.semana}`,
-            total: Number(item.total.toFixed(2))
-          }));
-          setDados(formatado);
-        }
+        const resultado = await buscarDadosSemanais();
+        setDados(resultado);
       } catch (err) {
         setError(err instanceof Error ? err.message : 'Erro ao carregar dados');
       } finally {

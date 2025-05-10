@@ -1,6 +1,6 @@
 import { PieChart, Pie, Cell, Tooltip, Legend, ResponsiveContainer } from "recharts";
 import { useEffect, useState } from "react";
-import { buscarDadosPizza, type DadosVenda } from "@/services/pizzaService";
+import { buscarDadosPizza, type DadosVenda } from "@/services/graficoService";
 
 const CORES = ["#00FFCC", "#FF6384", "#FFCE56", "#36A2EB", "#4BC0C0"];
 
